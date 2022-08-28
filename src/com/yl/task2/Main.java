@@ -7,6 +7,7 @@ import static com.yl.task2.PyramidSort.heapSort;
 public class Main {
     public static void main(String[] args) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
+
             Integer[] temp_array = inputProcessing();
             for (int i = 0; i <= temp_array.length - 1; i++) {
                 writer.write(temp_array[i] + " ");
