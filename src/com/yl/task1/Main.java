@@ -1,8 +1,6 @@
 package com.yl.task1;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import static com.yl.task1.PyramidSort.heapSort;
 
@@ -13,28 +11,41 @@ public class Main {
 
     public static String inputProcessing() throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-
             // указывается размер arraySize.
             int arraySize = Integer.parseInt(reader.readLine());
-
-            StrayArr[] struct = new StrayArr[arraySize];
+            // количество элементов в массиве.
+            int amountElements = Integer.parseInt(reader.readLine());
 
             // любая строка для рассчета хеша.
             String line = reader.readLine();
 
+            int m = arraySize / amountElements + (arraySize % amountElements == 0 ? 0 : 1);
+            int lastRow = arraySize % amountElements == 0 ? amountElements : arraySize % amountElements;
+
             long mean = 0;
-            for (int i = 0; i < arraySize; i++) {
-                line = getHash(line.toCharArray());
-                long count = Long.parseLong(line);
-                struct[i] = new StrayArr(count);
-                mean += count;
+
+            Long[][] array = new Long[m][];
+
+            for (int i = 0; i < m; i++) {
+                Long[] count = new Long[i < m - 1 ? amountElements : lastRow];
+                for (int j = 0; j < count.length; j++) {
+                    line = getHash(line.toCharArray());
+                    count[j] = Long.parseLong(line);
+                    mean += count[j];
+                }
+                array[i] = heapSort(count);
             }
 
-            heapSort(struct);
+            long maxValue = 0;
+            long minValue = Long.MAX_VALUE;
+            for (int k = 0; k < m; k++) {
+                maxValue = maxValue > array[k][0] ? maxValue : array[k][0];
+                minValue = minValue < array[k][array[k].length - 1] ? minValue : array[k][array[k].length - 1];
+            }
 
             return "Элементы {" +
-                    "Минимальное значение = '" + struct[struct.length - 1].getCount() + '\'' +
-                    ", Максимальное значение = '" + struct[0].getCount() + '\'' +
+                    "Минимальное значение = '" + minValue + '\'' +
+                    ", Максимальное значение = '" + maxValue + '\'' +
                     ", Среднее значение = '" + mean / arraySize + '\'' +
                     '}';
         }
@@ -47,4 +58,5 @@ public class Main {
         }
         return String.valueOf(hash);
     }
+
 }
