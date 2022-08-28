@@ -19,13 +19,11 @@ public class Main {
     public static Integer[] inputProcessing() throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
 
-            // указывается размер arraySize.
-            int arraySize = Integer.parseInt(reader.readLine());
-
-            Integer[] struct = new Integer[arraySize];
-
             // ввод элементов массива через пробел.
             String[] line = reader.readLine().split(" ");
+
+            int arraySize = line.length;
+            Integer[] struct = new Integer[arraySize];
 
             for (int i = 0; i < arraySize; i++) {
                 int count = Integer.parseInt(line[i]);

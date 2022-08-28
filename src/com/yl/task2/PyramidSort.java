@@ -5,7 +5,7 @@ import java.util.Comparator;
 public class PyramidSort implements Comparator<Integer> {
     @Override
     public int compare(Integer comparedElements, Integer supportElements) {
-        return comparedElements < supportElements ? 1 : 0;
+        return comparedElements > supportElements ? 1 : 0;
     }
 
     public static Integer[] heapSort(Integer[] arr) {
