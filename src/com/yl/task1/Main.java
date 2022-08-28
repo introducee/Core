@@ -11,23 +11,23 @@ public class Main {
 
     public static String inputProcessing() throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            // указывается размер arraySize.
+            // указать размер arraySize.
             int arraySize = Integer.parseInt(reader.readLine());
-            // количество элементов в массиве.
+            // указать количество элементов в массиве.
             int amountElements = Integer.parseInt(reader.readLine());
 
-            // любая строка для рассчета хеша.
+            // ввод любой строки для рассчета хеша.
             String line = reader.readLine();
 
-            int m = arraySize / amountElements + (arraySize % amountElements == 0 ? 0 : 1);
+            int numberOfSlices = arraySize / amountElements + (arraySize % amountElements == 0 ? 0 : 1);
             int lastRow = arraySize % amountElements == 0 ? amountElements : arraySize % amountElements;
 
             long mean = 0;
 
-            Long[][] array = new Long[m][];
+            Long[][] array = new Long[numberOfSlices][];
 
-            for (int i = 0; i < m; i++) {
-                Long[] count = new Long[i < m - 1 ? amountElements : lastRow];
+            for (int i = 0; i < numberOfSlices; i++) {
+                Long[] count = new Long[i < numberOfSlices - 1 ? amountElements : lastRow];
                 for (int j = 0; j < count.length; j++) {
                     line = getHash(line.toCharArray());
                     count[j] = Long.parseLong(line);
@@ -38,7 +38,7 @@ public class Main {
 
             long maxValue = 0;
             long minValue = Long.MAX_VALUE;
-            for (int k = 0; k < m; k++) {
+            for (int k = 0; k < numberOfSlices; k++) {
                 maxValue = maxValue > array[k][0] ? maxValue : array[k][0];
                 minValue = minValue < array[k][array[k].length - 1] ? minValue : array[k][array[k].length - 1];
             }
