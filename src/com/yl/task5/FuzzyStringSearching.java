@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 public class FuzzyStringSearching {
     public static void main(String[] args) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            System.out.println(new FuzzyStringSearching().fuzzySearch(reader.readLine(), reader.readLine()));
+            String oneLine = reader.readLine();
+            String twoLine = reader.readLine();
+            System.out.println(new FuzzyStringSearching().fuzzySearch(oneLine, twoLine));
         }
     }
 
