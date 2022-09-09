@@ -1,5 +1,6 @@
 package com.yl.task3;
 
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -8,17 +9,17 @@ public class ComplexExamples {
     record Person(int id, String name) {
 
         @Override
-            public boolean equals(Object o) {
-                if (this == o) return true;
-                if (!(o instanceof Person person)) return false;
-                return id() == person.id() && name().equals(person.name());
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(id(), name());
-            }
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Person person)) return false;
+            return id() == person.id() && name().equals(person.name());
         }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id(), name());
+        }
+    }
 
     private static final Person[] RAW_DATA = new Person[]{
             new Person(4, "Jack"),
@@ -35,7 +36,15 @@ public class ComplexExamples {
             new Person(4, "Jack"),
     };
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Writer writer = treatment();
+        writer.flush();
+        writer.close();
+    }
+
+    public static Writer treatment() throws IOException {
+        Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
+
         Set<Person> unique = new HashSet<>(Arrays.asList(RAW_DATA))
                 .stream()
                 .sorted(Comparator.comparingInt(Person::id))
@@ -44,16 +53,17 @@ public class ComplexExamples {
         Map<String, Long> map = unique.stream()
                 .collect(Collectors.groupingBy(Person::name, Collectors.counting()));
 
-        System.out.println("Сортировка по id:");
+        writer.write("Сортировка по id: \n");
         for (Person i : unique) {
-            System.out.println(i.id + " — " + i.name());
+            writer.write(i.id + " — " + i.name() + "\n");
         }
 
-        System.out.println("""
+        writer.write("""
 
                 Группировка по имени:""");
         for (Map.Entry<String, Long> i : map.entrySet()) {
-            System.out.println("Key: " + i.getKey() + "\n" + "Value: " + i.getValue());
+            writer.write("\n" + "Key: " + i.getKey() + "\n" + "Value: " + i.getValue());
         }
+        return writer;
     }
 }
