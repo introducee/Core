@@ -25,17 +25,15 @@ public class SumOfNumbers {
                 int num = Integer.parseInt(s);
                 if (!map.containsKey(num)) {
                     map.put(num, new int[2]);
-                    map.get(num)[0] = search - num;
-                } else {
-                    map.get(num)[0] = search - num;
                 }
+                map.get(num)[0] = search - num;
                 ++map.get(num)[1];
             }
 
             for (int j : map.keySet()) {
                 int value = map.get(j)[0];
                 int repeat = map.get(j)[1];
-                if (map.containsKey(value)) {
+                if (map.containsKey(value) && map.get(value)[1] > 1) {
                     return j + " " + value;
                 } else if (repeat > 1 && search % value == 0 && value * 2 == search) {
                     return value + " " + value;
