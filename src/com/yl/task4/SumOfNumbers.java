@@ -18,16 +18,15 @@ public class SumOfNumbers {
             // ввод заданного числа.
             int search = Integer.parseInt(reader.readLine());
 
+
             Map<Integer, int[]> map = new HashMap<>();
 
             for (String s : line) {
                 int num = Integer.parseInt(s);
                 if (!map.containsKey(num)) {
-                    if (search - num >= 0) {
-                        map.put(num, new int[2]);
-                        map.get(num)[0] = search - num;
-                        ++map.get(num)[1];
-                    }
+                    map.put(num, new int[2]);
+                    map.get(num)[0] = search - num;
+                    ++map.get(num)[1];
                 } else {
                     map.get(num)[0] = search - num;
                     ++map.get(num)[1];
