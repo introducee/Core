@@ -14,14 +14,18 @@ public class SumOfNumbers {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
 
             // ввод элементов массива через пробел.
-            String[] line = reader.readLine().split(" ");
+            String[] lines = reader.readLine().split(" ");
             // ввод заданного числа.
             int search = Integer.parseInt(reader.readLine());
 
+            // Проверка на null и пустую строку.
+            if (check(lines)) {
+                return "Некорректный ввод данных";
+            }
 
             Map<Integer, int[]> map = new HashMap<>();
 
-            for (String s : line) {
+            for (String s : lines) {
                 int num = Integer.parseInt(s);
                 if (!map.containsKey(num)) {
                     map.put(num, new int[2]);
@@ -42,5 +46,18 @@ public class SumOfNumbers {
 
             return "Не найдено";
         }
+    }
+
+    public static boolean check(String[] lines) {
+        if (lines == null) {
+            return true;
+        }
+
+        for (String line : lines) {
+            if (line == null || line.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -79,6 +79,10 @@ public class ComplexExamples {
     }
 
     public static boolean check(Person[] RAW_DATA) {
+        if (RAW_DATA == null) {
+            return true;
+        }
+
         for (Person person : RAW_DATA) {
             String line;
             if (person == null || (line = person.name) == null || line.isEmpty()) {
