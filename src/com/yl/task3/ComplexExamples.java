@@ -33,18 +33,16 @@ public class ComplexExamples {
             new Person(1, "Harry"),
             new Person(2, "Harry"),
             new Person(3, "Emily"),
-            new Person(4, "Jack"),
+            new Person(4, "Emily"),
     };
 
     public static void main(String[] args) throws IOException {
-        Writer writer = treatment();
+        Writer writer = sortAndGroupFunction();
         writer.flush();
         writer.close();
     }
 
-    public static Writer treatment() throws IOException {
-        Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
-
+    public static Writer sortAndGroupFunction() throws IOException {
         Set<Person> unique = new HashSet<>(Arrays.asList(RAW_DATA))
                 .stream()
                 .sorted(Comparator.comparingInt(Person::id))
@@ -53,17 +51,40 @@ public class ComplexExamples {
         Map<String, Long> map = unique.stream()
                 .collect(Collectors.groupingBy(Person::name, Collectors.counting()));
 
-        writer.write("Сортировка по id: \n");
-        for (Person i : unique) {
-            writer.write(i.id + " — " + i.name() + "\n");
+        return print(unique, map);
+    }
+
+    public static Writer print(Set<Person> unique, Map<String, Long> map) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+        String lineSeparator = "\n\n";
+
+        // Проверка ввода данных на null, null в имени, пустую строку.
+        if (check(RAW_DATA)) {
+            writer.write("Некорректный ввод данных");
+            return writer;
         }
 
-        writer.write("""
+        writer.write("Сортировка по id:");
+        for (Person i : unique) {
+            writer.newLine();
+            writer.write(i.id + " — " + i.name());
+        }
 
-                Группировка по имени:""");
+        writer.write(lineSeparator + "Группировка по имени:");
         for (Map.Entry<String, Long> i : map.entrySet()) {
-            writer.write("\n" + "Key: " + i.getKey() + "\n" + "Value: " + i.getValue());
+            writer.newLine();
+            writer.write("Key: " + i.getKey() + "  Value: " + i.getValue());
         }
         return writer;
+    }
+
+    public static boolean check(Person[] RAW_DATA) {
+        for (Person person : RAW_DATA) {
+            String line;
+            if (person == null || (line = person.name) == null || line.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
