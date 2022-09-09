@@ -26,11 +26,10 @@ public class SumOfNumbers {
                 if (!map.containsKey(num)) {
                     map.put(num, new int[2]);
                     map.get(num)[0] = search - num;
-                    ++map.get(num)[1];
                 } else {
                     map.get(num)[0] = search - num;
-                    ++map.get(num)[1];
                 }
+                ++map.get(num)[1];
             }
 
             for (int j : map.keySet()) {
