@@ -14,22 +14,36 @@ public class SumOfNumbers {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
 
             // ввод элементов массива через пробел.
-            String[] line = reader.readLine().split(" ");
+            StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
+            Integer[] arr = new Integer[tokenizer.countTokens()];
+            for (int index = 0; tokenizer.hasMoreTokens(); index++) {
+                String st = tokenizer.nextToken();
+                if(st.matches("^[0-9]+$")) {
+                    arr[index] = Integer.parseInt(st);
+                } else {
+                    return "Некорректный ввод";
+                }
+            }
+
             // ввод заданного числа.
-            int search = Integer.parseInt(reader.readLine());
+            String givenNumber = reader.readLine();
+            int search;
+
+            if(givenNumber.matches("^[0-9]+$")) {
+                search = Integer.parseInt(givenNumber);
+            } else {
+                return "Некорректный ввод";
+            }
 
 
             Map<Integer, int[]> map = new HashMap<>();
 
-            for (String s : line) {
-                int num = Integer.parseInt(s);
-                if (!map.containsKey(num)) {
-                    map.put(num, new int[2]);
-                    map.get(num)[0] = search - num;
-                } else {
-                    map.get(num)[0] = search - num;
+            for (int element : arr) {
+                if (!map.containsKey(element)) {
+                    map.put(element, new int[2]);
                 }
-                ++map.get(num)[1];
+                map.get(element)[0] = search - element;
+                ++map.get(element)[1];
             }
 
             for (int j : map.keySet()) {
