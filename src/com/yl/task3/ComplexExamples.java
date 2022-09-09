@@ -36,10 +36,22 @@ public class ComplexExamples {
     };
 
     public static void main(String[] args) {
-        Set<Person> unique = new HashSet<>(Arrays.asList(RAW_DATA));
+        Set<Person> unique = new HashSet<>(Arrays.asList(RAW_DATA))
+                .stream()
+                .sorted(Comparator.comparingInt(Person::id))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
         Map<String, Long> map = unique.stream()
                 .collect(Collectors.groupingBy(Person::name, Collectors.counting()));
 
+        System.out.println("Сортировка по id:");
+        for (Person i : unique) {
+            System.out.println(i.id + " — " + i.name());
+        }
+
+        System.out.println("""
+
+                Группировка по имени:""");
         for (Map.Entry<String, Long> i : map.entrySet()) {
             System.out.println("Key: " + i.getKey() + "\n" + "Value: " + i.getValue());
         }
