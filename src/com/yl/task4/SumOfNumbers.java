@@ -33,7 +33,7 @@ public class SumOfNumbers {
             for (int j : map.keySet()) {
                 int value = map.get(j)[0];
                 int repeat = map.get(j)[1];
-                if (map.containsKey(value) && map.get(value)[1] > 1) {
+                if (map.containsKey(value) && (value != j || map.get(value)[1] > 1)) {
                     return j + " " + value;
                 } else if (repeat > 1 && search % value == 0 && value * 2 == search) {
                     return value + " " + value;
