@@ -23,7 +23,7 @@ public class ComplexExamples {
 
     private static final Person[] RAW_DATA = new Person[]{
             new Person(4, "Jack"),
-            new Person(5, "Amelia"),
+            new Person(5, "Jack"),
             new Person(5, "Amelia"),
             new Person(6, "Amelia"),
             new Person(7, "Amelia"),
@@ -36,6 +36,7 @@ public class ComplexExamples {
             new Person(4, "Emily"),
     };
 
+    static BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
     public static void main(String[] args) throws IOException {
         Writer writer = sortAndGroupFunction();
         writer.flush();
@@ -43,6 +44,13 @@ public class ComplexExamples {
     }
 
     public static Writer sortAndGroupFunction() throws IOException {
+
+        // Проверка ввода данных на null, null в имени, пустую строку.
+        if (check(RAW_DATA)) {
+            writer.write("Некорректный ввод данных");
+            return writer;
+        }
+
         Set<Person> unique = new HashSet<>(Arrays.asList(RAW_DATA))
                 .stream()
                 .sorted(Comparator.comparingInt(Person::id))
@@ -55,14 +63,7 @@ public class ComplexExamples {
     }
 
     public static Writer print(Set<Person> unique, Map<String, Long> map) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
         String lineSeparator = "\n\n";
-
-        // Проверка ввода данных на null, null в имени, пустую строку.
-        if (check(RAW_DATA)) {
-            writer.write("Некорректный ввод данных");
-            return writer;
-        }
 
         writer.write("Сортировка по id:");
         for (Person i : unique) {
