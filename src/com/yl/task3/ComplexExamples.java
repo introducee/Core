@@ -37,6 +37,7 @@ public class ComplexExamples {
     };
 
     static BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+
     public static void main(String[] args) throws IOException {
         Writer writer = sortAndGroupFunction();
         writer.flush();
@@ -90,6 +91,7 @@ public class ComplexExamples {
                 return true;
             }
         }
+
         return false;
     }
 }
