@@ -60,10 +60,10 @@ public class ComplexExamples {
         Map<String, Long> map = unique.stream()
                 .collect(Collectors.groupingBy(Person::name, Collectors.counting()));
 
-        return print(unique, map);
+        return writingToFile(unique, map);
     }
 
-    public static Writer print(Set<Person> unique, Map<String, Long> map) throws IOException {
+    public static Writer writingToFile(Set<Person> unique, Map<String, Long> map) throws IOException {
         String lineSeparator = "\n\n";
 
         writer.write("Сортировка по id:");
