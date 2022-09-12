@@ -48,7 +48,7 @@ public class ComplexExamples {
 
         // Проверка ввода данных на null, null в имени, пустую строку.
         if (check(RAW_DATA)) {
-            writer.write("Некорректный ввод данных");
+            writer.write("Получено невалидное значение");
             return writer;
         }
 
@@ -91,7 +91,6 @@ public class ComplexExamples {
                 return true;
             }
         }
-
         return false;
     }
 }

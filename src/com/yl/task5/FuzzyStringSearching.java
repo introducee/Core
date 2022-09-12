@@ -18,7 +18,6 @@ public class FuzzyStringSearching {
                 lines[i] = reader.readLine();
             }
 
-            // Проверка на null и пустую строку.
             if (check(lines)) {
                 return "Некорректный ввод данных";
             }
