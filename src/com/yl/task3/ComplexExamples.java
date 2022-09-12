@@ -23,8 +23,8 @@ public class ComplexExamples {
 
     private static final Person[] RAW_DATA = new Person[]{
             new Person(0, "Harry"),
-            new Person(0, "Harry"), // дубликат
-            new Person(1, "Harry"), // тёзка
+            new Person(0, "Harry"),
+            new Person(1, "Harry"),
             new Person(2, "Harry"),
             new Person(3, "Emily"),
             new Person(4, "Jack"),
@@ -65,7 +65,8 @@ public class ComplexExamples {
             }
         }
 
-        map = unique.stream()
+        map = unique
+                .stream()
                 .collect(Collectors.groupingBy(Person::name, Collectors.counting()));
 
         writingToFile();
