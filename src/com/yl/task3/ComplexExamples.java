@@ -50,7 +50,7 @@ public class ComplexExamples {
             System.out.println("Получено невалидное значение");
         } else {
             sortAndGroupFunction();
-            System.out.println("Индексы невалидных объектов: " + discardedValue.get(0) + "\n");
+            System.out.println("Индексы невалидных объектов: " + discardedValue + "\n");
             writer.flush();
             writer.close();
         }
