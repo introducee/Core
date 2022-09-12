@@ -57,11 +57,11 @@ public class ComplexExamples {
     }
 
     public static void sortAndGroupFunction() throws IOException {
-        for (Person rawDatum : RAW_DATA) {
-            if (rawDatum.name == null) {
-                discardedValue.add(rawDatum.id);
+        for (int i = 0; i < RAW_DATA.length; i++) {
+            if (RAW_DATA[i].name == null) {
+                discardedValue.add(i);
             } else {
-                unique.add(rawDatum);
+                unique.add(RAW_DATA[i]);
             }
         }
 
