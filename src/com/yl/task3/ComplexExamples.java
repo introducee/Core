@@ -22,48 +22,56 @@ public class ComplexExamples {
     }
 
     private static final Person[] RAW_DATA = new Person[]{
+            new Person(0, "Harry"),
+            new Person(0, "Harry"), // дубликат
+            new Person(1, "Harry"), // тёзка
+            new Person(2, "Harry"),
+            new Person(3, "Emily"),
             new Person(4, "Jack"),
-            new Person(5, "Jack"),
+            new Person(4, "Jack"),
+            new Person(5, "Amelia"),
             new Person(5, "Amelia"),
             new Person(6, "Amelia"),
             new Person(7, "Amelia"),
             new Person(8, "Amelia"),
-            new Person(0, "Harry"),
-            new Person(0, "Harry"),
-            new Person(1, "Harry"),
-            new Person(2, "Harry"),
-            new Person(3, "Emily"),
-            new Person(4, "Emily"),
+            new Person(9, null),
     };
 
     static BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
+    static Set<Person> unique = new TreeSet<>(Comparator.comparingInt(s -> s.id));
+
+    static List<Integer> discardedValue = new ArrayList<>();
+
+    static Map<String, Long> map;
+
     public static void main(String[] args) throws IOException {
-        Writer writer = sortAndGroupFunction();
-        writer.flush();
-        writer.close();
+        if (RAW_DATA == null) {
+            System.out.println("Получено невалидное значение");
+        } else {
+            sortAndGroupFunction();
+            System.out.println("Индексы невалидных объектов: " + discardedValue.get(0) + "\n");
+            writer.flush();
+            writer.close();
+        }
     }
 
-    public static Writer sortAndGroupFunction() throws IOException {
-
-        // Проверка ввода данных на null, null в имени, пустую строку.
-        if (check(RAW_DATA)) {
-            writer.write("Получено невалидное значение");
-            return writer;
+    public static void sortAndGroupFunction() throws IOException {
+        for (Person rawDatum : RAW_DATA) {
+            if (rawDatum.name == null) {
+                discardedValue.add(rawDatum.id);
+            } else {
+                unique.add(rawDatum);
+            }
         }
 
-        Set<Person> unique = new HashSet<>(Arrays.asList(RAW_DATA))
-                .stream()
-                .sorted(Comparator.comparingInt(Person::id))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-
-        Map<String, Long> map = unique.stream()
+        map = unique.stream()
                 .collect(Collectors.groupingBy(Person::name, Collectors.counting()));
 
-        return writingToFile(unique, map);
+        writingToFile();
     }
 
-    public static Writer writingToFile(Set<Person> unique, Map<String, Long> map) throws IOException {
+    public static void writingToFile() throws IOException {
         String lineSeparator = "\n\n";
 
         writer.write("Сортировка по id:");
@@ -77,20 +85,5 @@ public class ComplexExamples {
             writer.newLine();
             writer.write("Key: " + i.getKey() + "  Value: " + i.getValue());
         }
-        return writer;
-    }
-
-    public static boolean check(Person[] RAW_DATA) {
-        if (RAW_DATA == null) {
-            return true;
-        }
-
-        for (Person person : RAW_DATA) {
-            String line;
-            if (person == null || (line = person.name) == null || line.isEmpty()) {
-                return true;
-            }
-        }
-        return false;
     }
 }
